@@ -152,6 +152,29 @@ void credits(){
     }
 }
 
+void about(){
+
+    int exit = 0;
+
+    SaveVRAM_1();
+
+    Bdisp_AllClr_VRAM();
+
+    PrintXY(0,1,"---Version: 1.1",0,0);
+    PrintXY(0,2,"---Date: 09.10.2022",0,0);
+    PrintXY(0,8,"---To return press EXE",0,0);
+    Bdisp_PutDisp_DD();
+
+    while(exit == 0){
+        if(getKey() == 0x0302){
+            exit = 1;
+            LoadVRAM_1();
+            Bdisp_PutDisp_DD();
+        }
+    }
+
+}
+
 int selectScreen(){
     copyPict(startMenu,0,0,384,216);
     Bdisp_PutDisp_DD();
@@ -166,6 +189,9 @@ int selectScreen(){
                 return 3;
             case 0x060A:
                 credits();
+                break;
+            case 0x050A:
+                about();
                 break;
             case 0x0408:
                 return 4;
@@ -260,11 +286,6 @@ int main() {
         }else if(key == 0x070A){ // 0x070A is the F1 key code
             repeat = 1;
             break;
-        }else if(key == 0x060A){ // 0x060A is the F2 key code
-            credits();
-            gameOver(len);
-        }else if(key == 0x050A){ // 0x050A is the F3 key code
-            interval = interval*2;
         }
         
 
